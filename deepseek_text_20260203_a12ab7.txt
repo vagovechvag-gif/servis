@@ -1,0 +1,22 @@
+autouhod-website/
+├── index.html                 # Главный файл с интегрированным каталогом
+├── README.md                  # Описание проекта
+├── .gitignore                 # Игнорируемые файлы
+├── .nojekyll                  # Отключение Jekyll для GitHub Pages
+├── 404.html                   # Страница 404 ошибки
+├── sitemap.xml                # Карта сайта для SEO
+├── robots.txt                 # Инструкции для поисковых роботов
+├── favicon.ico                # Иконка сайта
+├── site.webmanifest           # Манифест для PWA
+├── assets/
+│   ├── css/
+│   │   └── main.css          # Вынесенные CSS стили (опционально)
+│   ├── js/
+│   │   └── main.js           # Вынесенный JavaScript (опционально)
+│   └── images/
+│       ├── logo.png
+│       ├── car-silhouette.jpg
+│       └── service-bg.jpg
+└── .github/
+    └── workflows/
+        └── deploy.yml        # Автоматическое развертывание (опционально)

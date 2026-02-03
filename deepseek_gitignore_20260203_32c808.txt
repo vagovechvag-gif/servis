@@ -1,0 +1,39 @@
+# Операционные системы
+.DS_Store
+Thumbs.db
+
+# Редакторы кода
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи и временные файлы
+*.log
+*.tmp
+*.temp
+
+# Файлы зависимостей
+node_modules/
+package-lock.json
+yarn.lock
+
+# Среда разработки
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Системные файлы
+*.bak
+*.backup
+
+# Файлы сборки
+dist/
+build/
+
+# Документация
+*.doc
+*.docx
+*.pdf
