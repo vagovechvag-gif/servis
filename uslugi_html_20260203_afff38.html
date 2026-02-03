@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог услуг | АвтоУход | Премиум автосервис</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #0a0a0a;
+            --dark-card: #121212;
+            --dark-header: #0f0f0f;
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #9c7c2c;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --text-light: #f5f5f5;
+            --text-gray: #b0b0b0;
+            --text-dark: #888888;
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-gold: 0 5px 20px rgba(212, 175, 55, 0.2);
+            --success: #4CAF50;
+            --error: #f44336;
+            --info: #2196F3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка сайта - идентичная основной странице */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(15, 15, 15, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            transition: var(--transition);
+            padding: 5px 0;
+        }
+
+        header.scrolled {
+            padding: 0;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            transition: var(--transition);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            z-index: 1002;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-main {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            line-height: 1;
+        }
+
+        .logo-sub {
+            font-size: 0.6rem;
+            color: var(--text-gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 30px;
+            position: relative;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            padding: 8px 0;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a.active {
+            color: var(--gold);
+        }
+
+        nav a.active::after {
+            width: 100%;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--dark-bg);
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: var(--shadow-gold);
+            font-size: 0.95rem;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+            color: var(--dark-bg);
+        }
+
+        .nav-btn.login-btn {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            box-shadow: none;
+            padding: 9px 22px;
+        }
+
+        .nav-btn.login-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--dark-bg);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid var(--gold);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        /* Мобильное меню */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 320px;
+            height: 100%;
+            background-color: var(--dark-header);
+            z-index: 1001;
+            padding: 100px 30px 30px;
+            transition: var(--transition);
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav ul {
+            flex-direction: column;
+            list-style: none;
+        }
+
+        .mobile-nav li {
+            margin: 0 0 20px 0;
+        }
+
+        .mobile-nav a {
+            display: block;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 12px 15px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .mobile-nav a:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+        }
+
+        .mobile-nav a.active {
+            background-color: rgba(212, 175, 55, 0.15);
+            color: var(--gold);
+            border-left: 3px solid var(--gold);
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1003;
+        }
+
+        /* Контент страницы услуг */
+        .services-hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.8) 100%), 
+                        url('https://images.unsplash.com/photo-1565689221354-d87f85d4aee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title span {
+            color: var(--gold);
+            position: relative;
+        }
+
+        .page-title span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: rgba(212, 175, 55, 0.2);
+            z-index: -1;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            max-width: 700px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Навигация по категориям */
+        .categories-nav {
+            display: flex;
+            overflow-x: auto;
+            padding: 20px 0;
+            margin-bottom: 40px;
+            gap: 15px;
+            position: relative;
+            z-index: 2;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) transparent;
+        }
+
+        .categories-nav::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .categories-nav::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .categories-nav::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 3px;
+        }
+
+        .category-btn {
+            flex-shrink: 0;
+            padding: 12px 25px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 50px;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .category-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            color: var(--gold-light);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--dark-bg);
+            border-color: var(--gold);
+            box-shadow: var(--shadow-gold);
+            font-weight: 600;
+        }
+
+        .category-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Сетка услуг */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .services-grid.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card {
+            background-color: rgba(18, 18, 18, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-dark) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: var(--shadow);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .service-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-light);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .service-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-left: 15px;
+            white-space: nowrap;
+        }
+
+        .service-category {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: rgba(212, 175, 55, 0.1);
+            color: var(--gold-light);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .service-description {
+            color: var(--text-gray);
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .service-action {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .add-to-cart-btn {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .add-to-cart-btn.added {
+            background: linear-gradient(135deg, var(--success) 0%, #2E7D32 100%);
+        }
+
+        .details-btn {
+            padding: 14px 20px;
+            background-color: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .details-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Калькулятор стоимости */
+        .calculator-container {
+            background-color: rgba(18, 18, 18, 0.9);
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            box-shadow: var(--shadow);
+            margin-bottom: 80px;
+            position: sticky;
+            bottom: 20px;
+            z-index: 100;
+        }
+
+        .calculator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .calculator-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--text-light);
+        }
+
+        .calculator-title span {
+            color: var(--gold);
+        }
+
+        .selected-count {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--dark-bg);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .selected-services {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 30px;
+            padding-right: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) transparent;
+        }
+
+        .selected-services::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .selected-services::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .selected-services::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 3px;
+        }
+
+        .selected-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.05);
+            transition: var(--transition);
+        }
+
+        .selected-item:hover {
+            border-color: rgba(212, 175, 55, 0.2);
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .item-category {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin: 0 20px;
+        }
+
+        .remove-item {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .remove-item:hover {
+            background-color: rgba(244, 67, 54, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-gray);
+        }
+
+        .empty-cart i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--gold);
+            opacity: 0.5;
+        }
+
+        .calculator-footer {
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            padding-top: 30px;
+        }
+
+        .total-amount {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .total-label {
+            font-size: 1.3rem;
+            color: var(--text-light);
+        }
+
+        .total-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .calculator-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .clear-btn, .order-btn {
+            flex: 1;
+            padding: 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .clear-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .clear-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .order-btn {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--dark-bg);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .order-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 20px 25px;
+            border-radius: 10px;
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-light);
+            z-index: 10000;
+            max-width: 350px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(400px);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            backdrop-filter: blur(10px);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification i {
+            font-size: 1.5rem;
+            color: var(--gold);
+        }
+
+        .notification.success i {
+            color: var(--success);
+        }
+
+        .notification.error i {
+            color: var(--error);
+        }
+
+        /* Футер */
+        footer {
+            background-color: var(--dark-header);
+            padding: 70px 0 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+
+        .footer-contact {
+            color: var(--text-gray);
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-contact i {
+            margin-right: 10px;
+            color: var(--gold);
+            width: 20px;
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .page-title {
+                font-size: 3rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Шапка на мобильных устройствах */
+            nav.desktop-nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .header-container {
+                padding: 12px 0;
+            }
+            
+            .logo-main {
+                font-size: 1.4rem;
+            }
+            
+            .logo-icon {
+                font-size: 1.8rem;
+            }
+            
+            /* Контент страницы */
+            .services-hero {
+                padding-top: 120px;
+                padding-bottom: 60px;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .calculator-container {
+                padding: 30px 25px;
+                margin-bottom: 60px;
+            }
+            
+            .calculator-title {
+                font-size: 1.6rem;
+            }
+            
+            .calculator-actions {
+                flex-direction: column;
+            }
+            
+            .selected-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .item-price {
+                margin: 0;
+                align-self: flex-end;
+            }
+            
+            .remove-item {
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .category-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .service-card {
+                padding: 25px;
+            }
+            
+            .service-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .service-price {
+                margin-left: 0;
+            }
+            
+            .service-action {
+                flex-direction: column;
+            }
+            
+            .notification {
+                max-width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+            }
+            
+            .logo-main {
+                font-size: 1.3rem;
+            }
+            
+            .logo-sub {
+                font-size: 0.55rem;
+                letter-spacing: 1.5px;
+            }
+        }
+
+        /* Планшеты */
+        @media (min-width: 577px) and (max-width: 992px) {
+            .page-title {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта - идентичная основной странице -->
+    <header id="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="logo-text">
+                        <div class="logo-main">АвтоУход</div>
+                        <div class="logo-sub">Premium Auto Service</div>
+                    </div>
+                </a>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="#" class="active">Услуги</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                        <li><a href="appointment.html" class="nav-btn">Записаться на ремонт</a></li>
+                        <li class="user-menu">
+                            <a href="login.html" class="user-avatar" id="userAvatar">ИК</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Мобильное меню -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="close-menu" id="closeMenuBtn">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="#" class="active">Услуги</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+            <li><a href="appointment.html" class="nav-btn">Записаться на ремонт</a></li>
+            <li><a href="login.html" class="nav-btn login-btn">Личный кабинет</a></li>
+        </ul>
+    </div>
+
+    <!-- Основной контент -->
+    <main>
+        <section class="services-hero">
+            <div class="container">
+                <h1 class="page-title">Каталог <span>премиальных услуг</span></h1>
+                <p class="page-subtitle">
+                    Полный спектр профессиональных услуг для автомобилей премиум-класса. 
+                    Выберите необходимые услуги и получите точный расчет стоимости онлайн.
+                </p>
+                
+                <div class="categories-nav" id="categoriesNav">
+                    <!-- Категории будут заполнены через JavaScript -->
+                </div>
+                
+                <div class="services-grid" id="servicesGrid">
+                    <!-- Услуги будут заполнены через JavaScript -->
+                </div>
+                
+                <div class="calculator-container" id="calculatorContainer">
+                    <div class="calculator-header">
+                        <h2 class="calculator-title">Выбранные <span>услуги</span></h2>
+                        <div class="selected-count">
+                            <span id="selectedCount">0</span> услуг
+                        </div>
+                    </div>
+                    
+                    <div class="selected-services" id="selectedServices">
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>Вы еще не выбрали ни одной услуги</p>
+                            <p style="font-size: 0.9rem; margin-top: 10px;">Нажмите кнопку "Добавить к заказу" в карточке услуги</p>
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-footer">
+                        <div class="total-amount">
+                            <div class="total-label">Общая стоимость:</div>
+                            <div class="total-value" id="totalAmount">0 ₽</div>
+                        </div>
+                        
+                        <div class="calculator-actions">
+                            <button class="clear-btn" id="clearBtn">
+                                <i class="fas fa-trash-alt"></i> Очистить всё
+                            </button>
+                            <button class="order-btn" id="orderBtn">
+                                <i class="fas fa-calendar-check"></i> Записаться
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-title">АвтоУход</div>
+                    <p style="color: var(--text-gray); margin-bottom: 20px;">
+                        Премиальный автосервис для автомобилей бизнес и премиум-класса. 
+                        Гарантия качества, индивидуальный подход и экспертный уровень обслуживания.
+                    </p>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> Москва, ул. Автозаводская, 25</p>
+                        <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+                        <p><i class="fas fa-envelope"></i> info@autouhod.ru</p>
+                        <p><i class="fas fa-clock"></i> Пн-Сб: 9:00-21:00, Вс: 10:00-18:00</p>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <div class="footer-title">Услуги</div>
+                    <ul class="footer-links">
+                        <li><a href="#polishing">Полировка и детейлинг</a></li>
+                        <li><a href="#painting">Покраска</a></li>
+                        <li><a href="#metalwork">Жестяные работы</a></li>
+                        <li><a href="#technical">Техническое обслуживание</a></li>
+                        <li><a href="#diagnostics">Диагностика</a></li>
+                        <li><a href="#engine">Ремонт двигателя</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <div class="footer-title">Быстрые ссылки</div>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="#">Наши услуги</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                        <li><a href="appointment.html">Запись на ремонт</a></li>
+                        <li><a href="login.html">Личный кабинет</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 АвтоУход — премиальный автосервис. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Контейнер для уведомлений -->
+    <div id="notificationsContainer"></div>
+
+    <script>
+        // Данные услуг (JSON)
+        const servicesData = {
+          "services": {
+            "Полировка": [
+              {
+                "name": "Полировка капота",
+                "price_string": "от 2000 руб",
+                "price_number": 2000
+              },
+              {
+                "name": "Полировка переднего бампера",
+                "price_string": "от 1500 руб.",
+                "price_number": 1500
+              },
+              {
+                "name": "Полировка заднего бампера",
+                "price_string": "от 1500 руб",
+                "price_number": 1500
+              },
+              {
+                "name": "Полировка задней двери",
+                "price_string": "от 1300 руб.",
+                "price_number": 1300
+              },
+              {
+                "name": "Полировка передней двери",
+                "price_string": "от 1300 руб",
+                "price_number": 1300
+              },
+              {
+                "name": "Полировка передних крыльев",
+                "price_string": "от 1000 руб.",
+                "price_number": 1000
+              },
+              {
+                "name": "Полировка задних крыльев",
+                "price_string": "от 1300 руб.",
+                "price_number": 1300
+              },
+              {
+                "name": "Полировка крыши",
+                "price_string": "от 1900 руб",
+                "price_number": 1900
+              },
+              {
+                "name": "Полировка фар",
+                "price_string": "от 500 руб.",
+                "price_number": 500
+              },
+              {
+                "name": "Полировка кузова",
+                "price_string": "от 12000 руб.",
+                "price_number": 12000
+              },
+              {
+                "name": "Нанесение керамики",
+                "price_string": "от 6900 руб.",
+                "price_number": 6900
+              }
+            ],
+            "Покраска": [
+              {
+                "name": "Покраска бокового зеркала",
+                "price_string": "от 2900 руб.",
+                "price_number": 2900
+              },
+              {
+                "name": "Покраска заднего бампера",
+                "price_string": "от 9900 руб.",
+                "price_number": 9900
+              },
+              {
+                "name": "Покраска переднего бампера",
+                "price_string": "от 9900 руб.",
+                "price_number": 9900
+              },
+              {
+                "name": "Покраска переднего крыла",
+                "price_string": "от 8900 руб.",
+                "price_number": 8900
+              },
+              {
+                "name": "Покраска передней двери",
+                "price_string": "от 9500 руб.",
+                "price_number": 9500
+              },
+              {
+                "name": "Покраска задней двери",
+                "price_string": "от 9500 руб.",
+                "price_number": 9500
+              },
+              {
+                "name": "Покраска заднего крыла",
+                "price_string": "от 9900 руб.",
+                "price_number": 9900
+              },
+              {
+                "name": "Покраска крышки багажника",
+                "price_string": "от 9900 руб.",
+                "price_number": 9900
+              },
+              {
+                "name": "Покраска капота",
+                "price_string": "от 10900 руб.",
+                "price_number": 10900
+              },
+              {
+                "name": "Покраска крыши",
+                "price_string": "от 12900 руб.",
+                "price_number": 12900
+              },
+              {
+                "name": "Покраска порога",
+                "price_string": "от 7000 руб.",
+                "price_number": 7000
+              },
+              {
+                "name": "Покраска АНТИХРОМ",
+                "price_string": "от 3500 руб.",
+                "price_number": 3500
+              },
+              {
+                "name": "Покраска молдингов и уширителей",
+                "price_string": "от 2500 руб.",
+                "price_number": 2500
+              },
+              {
+                "name": "Восстановление помутневшей оптики",
+                "price_string": "от 2500 руб",
+                "price_number": 2500
+              }
+            ],
+            "Жестяные работы": [
+              {
+                "name": "Жестяные работы",
+                "price_string": "от 4900 руб.",
+                "price_number": 4900
+              },
+              {
+                "name": "Сварочные работы",
+                "price_string": "от 2900 руб.",
+                "price_number": 2900
+              },
+              {
+                "name": "Локальный кузовной ремонт",
+                "price_string": "от 4900 руб.",
+                "price_number": 4900
+              },
+              {
+                "name": "Замена порога с покраской",
+                "price_string": "от 19900 руб.",
+                "price_number": 19900
+              }
+            ],
+            "Арматурные работы": [
+              {
+                "name": "Снятие - установка капота",
+                "price_string": "от 890 руб.",
+                "price_number": 890
+              },
+              {
+                "name": "Разборка - сборка капота",
+                "price_string": "от 650 руб.",
+                "price_number": 650
+              },
+              {
+                "name": "Снятие - установка переднего крыла",
+                "price_string": "от 990 руб.",
+                "price_number": 990
+              },
+              {
+                "name": "Разборка - сборка переднего крыла",
+                "price_string": "от 650 руб.",
+                "price_number": 650
+              },
+              {
+                "name": "Снятие - установка передней двери",
+                "price_string": "от 990 руб.",
+                "price_number": 990
+              },
+              {
+                "name": "Разборка - сборка передней двери",
+                "price_string": "от 990 руб.",
+                "price_number": 990
+              },
+              {
+                "name": "Снятие - установка задней двери",
+                "price_string": "от 990 руб.",
+                "price_number": 990
+              },
+              {
+                "name": "Разборка - сборка задней двери",
+                "price_string": "от 990 руб.",
+                "price_number": 990
+              },
+              {
+                "name": "Снятие - установка крышки багажника",
+                "price_string": "от 890 руб.",
+                "price_number": 890
+              },
+              {
+                "name": "Разборка - сборка крышки багажника",
+                "price_string": "от 890 руб.",
+                "price_number": 890
+              },
+              {
+                "name": "Снятие - установка торпеды",
+                "price_string": "от 4900 руб.",
+                "price_number": 4900
+              },
+              {
+                "name": "Разборка - сборка заднего крыла",
+                "price_string": "от 990 руб.",
+                "price_number": 990
+              },
+              {
+                "name": "Разборка - сборка крыши",
+                "price_string": "от 1490 руб.",
+                "price_number": 1490
+              },
+              {
+                "name": "Снятие - установка накладки порогов",
+                "price_string": "от 590 руб.",
+                "price_number": 590
+              },
+              {
+                "name": "Разборка - сборка накладки порогов",
+                "price_string": "от 590 руб.",
+                "price_number": 590
+              },
+              {
+                "name": "Разборка - сборка багажного отсека",
+                "price_string": "от 1490 руб.",
+                "price_number": 1490
+              }
+            ],
+            "Техническое обслуживание": [
+              {
+                "name": "Замена масла в двигателе автомобиля",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена щеток стеклоочистителя",
+                "price_string": "от 300 ₽",
+                "price_number": 300
+              },
+              {
+                "name": "Замена воздушного фильтра",
+                "price_string": "от 360 ₽",
+                "price_number": 360
+              },
+              {
+                "name": "Замена салонного фильтра",
+                "price_string": "от 420 ₽",
+                "price_number": 420
+              },
+              {
+                "name": "Замена цепи ГРМ",
+                "price_string": "от 11000 ₽",
+                "price_number": 11000
+              },
+              {
+                "name": "Замена ремня ГРМ",
+                "price_string": "от 4000 ₽",
+                "price_number": 4000
+              },
+              {
+                "name": "Замена приводного ремня",
+                "price_string": "от 700 ₽",
+                "price_number": 700
+              },
+              {
+                "name": "Замена свечей зажигания",
+                "price_string": "от 700 ₽",
+                "price_number": 700
+              },
+              {
+                "name": "Замена антифриза",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Замена топливного фильтра",
+                "price_string": "от 400 ₽",
+                "price_number": 400
+              },
+              {
+                "name": "Замена тормозной жидкости",
+                "price_string": "от 900 ₽",
+                "price_number": 900
+              },
+              {
+                "name": "Сброс сервисного интервала",
+                "price_string": "от 300 ₽",
+                "price_number": 300
+              },
+              {
+                "name": "Чтение и сброс ошибок",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              }
+            ],
+            "Замена масла и жидкостей": [
+              {
+                "name": "Замена моторного масла ДВС",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена масла в АКПП (коробке автомат)",
+                "price_string": "от 1300 ₽",
+                "price_number": 1300
+              },
+              {
+                "name": "Замена масла в вариаторе",
+                "price_string": "от 1850 ₽",
+                "price_number": 1850
+              },
+              {
+                "name": "Замена масла в МКПП",
+                "price_string": "от 680 ₽",
+                "price_number": 680
+              },
+              {
+                "name": "Замена масла в редукторе",
+                "price_string": "от 680 ₽",
+                "price_number": 680
+              }
+            ],
+            "Диагностика автомобиля": [
+              {
+                "name": "Компьютерная диагностика автомобиля",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Диагностика автомобиля перед покупкой",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Диагностика ходовой части",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Диагностика инжектора",
+                "price_string": "от 1000 ₽",
+                "price_number": 1000
+              },
+              {
+                "name": "Диагностика МКПП",
+                "price_string": "от 500 ₽",
+                "price_number": 500
+              },
+              {
+                "name": "Диагностика раздаточной коробки",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Диагностика аккумулятора автомобиля",
+                "price_string": "от 500 ₽",
+                "price_number": 500
+              },
+              {
+                "name": "Диагностика топливной системы",
+                "price_string": "от 900 ₽",
+                "price_number": 900
+              }
+            ],
+            "Ремонт ходовой части": [
+              {
+                "name": "Диагностика подвески",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена амортизаторов",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Замена пружин ходовой части",
+                "price_string": "от 1500 ₽",
+                "price_number": 1500
+              },
+              {
+                "name": "Замена рычагов ходовой части",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Замена сайлентблоков рычагов",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Перепрессовка сайлентблоков",
+                "price_string": "от 400 ₽",
+                "price_number": 400
+              },
+              {
+                "name": "Замена стабилизатора поперечной устойчивости",
+                "price_string": "от 1000 ₽",
+                "price_number": 1000
+              },
+              {
+                "name": "Замена подрамника автомобиля",
+                "price_string": "от 4000 ₽",
+                "price_number": 4000
+              },
+              {
+                "name": "Замена стоек амортизаторов",
+                "price_string": "от 1300 ₽",
+                "price_number": 1300
+              },
+              {
+                "name": "Замена ступицы колеса",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Замена ступичных подшипников",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Замена поворотного кулака",
+                "price_string": "от 2800 ₽",
+                "price_number": 2800
+              },
+              {
+                "name": "Замена стоек стабилизатора",
+                "price_string": "от 400 ₽",
+                "price_number": 400
+              },
+              {
+                "name": "Замена втулок стабилизатора",
+                "price_string": "от 1000 ₽",
+                "price_number": 1000
+              },
+              {
+                "name": "Замена балок автомобиля",
+                "price_string": "от 3800 ₽",
+                "price_number": 3800
+              }
+            ],
+            "Ремонт тормозной системы": [
+              {
+                "name": "Диагностика тормозной системы",
+                "price_string": "от 300 ₽",
+                "price_number": 300
+              },
+              {
+                "name": "Замена вакуумного усилителя",
+                "price_string": "от 1000 ₽",
+                "price_number": 1000
+              },
+              {
+                "name": "Замена тормозных цилиндров",
+                "price_string": "от 1000 ₽",
+                "price_number": 1000
+              },
+              {
+                "name": "Замена тормозных дисков",
+                "price_string": "от 680 ₽",
+                "price_number": 680
+              },
+              {
+                "name": "Замена тормозных колодок",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена тормозных шлангов и трубок",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Прокачка тормозной системы",
+                "price_string": "от 900 ₽",
+                "price_number": 900
+              },
+              {
+                "name": "Ремонт тормозного суппорта",
+                "price_string": "от 1900 ₽",
+                "price_number": 1900
+              },
+              {
+                "name": "Замена тормозного суппорта",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Ремонт ручника автомобиля",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              }
+            ],
+            "Ремонт рулевого управления": [
+              {
+                "name": "Замена шаровой опоры",
+                "price_string": "от 400 ₽",
+                "price_number": 400
+              },
+              {
+                "name": "Замена насоса ГУР",
+                "price_string": "от 2800 ₽",
+                "price_number": 2800
+              },
+              {
+                "name": "Замена рулевых наконечников",
+                "price_string": "от 400 ₽",
+                "price_number": 400
+              },
+              {
+                "name": "Замена жидкости ГУР",
+                "price_string": "от 1300 ₽",
+                "price_number": 1300
+              },
+              {
+                "name": "Замена рулевой тяги автомобиля",
+                "price_string": "от 800 ₽",
+                "price_number": 800
+              }
+            ],
+            "Ремонт системы охлаждения": [
+              {
+                "name": "Замена радиатора автомобиля",
+                "price_string": "от 2800 ₽",
+                "price_number": 2800
+              },
+              {
+                "name": "Замена теплообменника",
+                "price_string": "от 1500 ₽",
+                "price_number": 1500
+              },
+              {
+                "name": "Замена патрубков радиатора автомобиля",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена термостата автомобиля",
+                "price_string": "от 1900 ₽",
+                "price_number": 1900
+              },
+              {
+                "name": "Замена вентилятора радиатора",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Ремонт вентилятора радиатора",
+                "price_string": "от 1800 ₽",
+                "price_number": 1800
+              },
+              {
+                "name": "Промывка радиатора",
+                "price_string": "от 2000 ₽",
+                "price_number": 2000
+              },
+              {
+                "name": "Промывка системы охлаждения",
+                "price_string": "от 2000 ₽",
+                "price_number": 2000
+              }
+            ],
+            "Ремонт топливной системы": [
+              {
+                "name": "Замена бензонасоса автомобиля",
+                "price_string": "от 1800 ₽",
+                "price_number": 1800
+              },
+              {
+                "name": "Промывка бензиновых форсунок",
+                "price_string": "от 2000 ₽",
+                "price_number": 2000
+              },
+              {
+                "name": "Чистка дроссельной заслонки",
+                "price_string": "от 1000 ₽",
+                "price_number": 1000
+              },
+              {
+                "name": "Ремонт дроссельной заслонки",
+                "price_string": "от 1000 ₽",
+                "price_number": 1000
+              },
+              {
+                "name": "Замена топливной рампы",
+                "price_string": "от 1200 ₽",
+                "price_number": 1200
+              },
+              {
+                "name": "Замена впускного коллектора",
+                "price_string": "от 1800 ₽",
+                "price_number": 1800
+              },
+              {
+                "name": "Замена выпускного коллектора",
+                "price_string": "от 1800 ₽",
+                "price_number": 1800
+              },
+              {
+                "name": "Промывка бензиновой топливной системы",
+                "price_string": "от 1800 ₽",
+                "price_number": 1800
+              },
+              {
+                "name": "Замена бензиновых форсунок",
+                "price_string": "от 2300 ₽",
+                "price_number": 2300
+              }
+            ],
+            "Ремонт двигателя": [
+              {
+                "name": "Диагностика двигателя автомобиля",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Замер компрессии двигателя автомобиля",
+                "price_string": "от 300 ₽",
+                "price_number": 300
+              },
+              {
+                "name": "Капитальный ремонт двигателя",
+                "price_string": "от 35000 ₽",
+                "price_number": 35000
+              },
+              {
+                "name": "Замена помпы двигателя (водяного насоса)",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              },
+              {
+                "name": "Замена вкладышей коленвала",
+                "price_string": "от 9000 ₽",
+                "price_number": 9000
+              },
+              {
+                "name": "Замена гидрокомпенсаторов двигателя",
+                "price_string": "от 6900 ₽",
+                "price_number": 6900
+              },
+              {
+                "name": "Замена подушек двигателя",
+                "price_string": "от 900 ₽",
+                "price_number": 900
+              },
+              {
+                "name": "Замена поддона двигателя",
+                "price_string": "от 2000 ₽",
+                "price_number": 2000
+              },
+              {
+                "name": "Замена поршневых колец двигателя",
+                "price_string": "от 14000 ₽",
+                "price_number": 14000
+              },
+              {
+                "name": "Замена ГБЦ двигателя",
+                "price_string": "от 9000 ₽",
+                "price_number": 9000
+              },
+              {
+                "name": "Замена прокладки ГБЦ",
+                "price_string": "от 6000 ₽",
+                "price_number": 6000
+              },
+              {
+                "name": "Замена прокладки поддона",
+                "price_string": "от 2000 ₽",
+                "price_number": 2000
+              },
+              {
+                "name": "Замена распредвала",
+                "price_string": "от 6000 ₽",
+                "price_number": 6000
+              },
+              {
+                "name": "Ремонт ГБЦ двигателя",
+                "price_string": "от 400 ₽",
+                "price_number": 400
+              },
+              {
+                "name": "Ремонт коленвала автомобиля",
+                "price_string": "от 1000 ₽",
+                "price_number": 1000
+              },
+              {
+                "name": "Замена катушки зажигания (модуля)",
+                "price_string": "от 200 ₽",
+                "price_number": 200
+              },
+              {
+                "name": "Замена масляного насоса",
+                "price_string": "от 5000 ₽",
+                "price_number": 5000
+              },
+              {
+                "name": "Замена двигателя в сборе",
+                "price_string": "от 10000 ₽",
+                "price_number": 10000
+              },
+              {
+                "name": "Установка защиты картера",
+                "price_string": "от 300 ₽",
+                "price_number": 300
+              }
+            ],
+            "Ремонт трансмиссии": [
+              {
+                "name": "Ремонт МКПП",
+                "price_string": "от 3500 ₽",
+                "price_number": 3500
+              },
+              {
+                "name": "Замена привода колес",
+                "price_string": "от 1600 ₽",
+                "price_number": 1600
+              },
+              {
+                "name": "Ремонт раздаточной коробки",
+                "price_string": "от 2800 ₽",
+                "price_number": 2800
+              },
+              {
+                "name": "Замена раздатки автомобиля",
+                "price_string": "от 2800 ₽",
+                "price_number": 2800
+              },
+              {
+                "name": "Замена масла в раздаточной коробке",
+                "price_string": "от 500 ₽",
+                "price_number": 500
+              },
+              {
+                "name": "Замена ШРУСа",
+                "price_string": "от 1400 ₽",
+                "price_number": 1400
+              }
+            ],
+            "Ремонт автоэлектрики": [
+              {
+                "name": "Замена аккумулятора автомобиля",
+                "price_string": "от 250 ₽",
+                "price_number": 250
+              },
+              {
+                "name": "Замена лампочки в фаре",
+                "price_string": "от 200 ₽",
+                "price_number": 200
+              },
+              {
+                "name": "Замена блока предохранителей автомобиля",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена фары",
+                "price_string": "от 800 ₽",
+                "price_number": 800
+              },
+              {
+                "name": "Ремонт печки автомобиля",
+                "price_string": "от 2000 ₽",
+                "price_number": 2000
+              },
+              {
+                "name": "Ремонт системы зажигания",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков системы топлива",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков управления двигателем",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков уровня жидкостей",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков охлаждения двигателя",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков зажигания автомобиля",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков выхлопа автомобиля",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков трансмиссии",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков тормозной системы",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков рулевой системы",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков автокондиционера",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков системы безопасности",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              },
+              {
+                "name": "Замена датчиков системы комфорта",
+                "price_string": "от 600 ₽",
+                "price_number": 600
+              }
+            ]
+          },
+          "last_updated": "2024-01-01",
+          "currency": "RUB",
+          "categories_count": 15,
+          "total_services": 157
+        };
+
+        // Иконки для категорий
+        const categoryIcons = {
+            "Полировка": "fas fa-spray-can",
+            "Покраска": "fas fa-paint-roller",
+            "Жестяные работы": "fas fa-hammer",
+            "Арматурные работы": "fas fa-tools",
+            "Техническое обслуживание": "fas fa-cogs",
+            "Замена масла и жидкостей": "fas fa-oil-can",
+            "Диагностика автомобиля": "fas fa-search",
+            "Ремонт ходовой части": "fas fa-car",
+            "Ремонт тормозной системы": "fas fa-tachometer-alt",
+            "Ремонт рулевого управления": "fas fa-steering-wheel",
+            "Ремонт системы охлаждения": "fas fa-thermometer-half",
+            "Ремонт топливной системы": "fas fa-gas-pump",
+            "Ремонт двигателя": "fas fa-engine",
+            "Ремонт трансмиссии": "fas fa-cogs",
+            "Ремонт автоэлектрики": "fas fa-bolt"
+        };
+
+        // Основная инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация шапки (мобильное меню и скролл)
+            initHeader();
+            
+            // Инициализация каталога услуг
+            initCategories();
+            initServices();
+            updateCartDisplay();
+            
+            // Обработчики событий
+            document.getElementById('clearBtn').addEventListener('click', clearCart);
+            document.getElementById('orderBtn').addEventListener('click', placeOrder);
+            
+            // Эффект параллакса для фона
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelector('.services-hero');
+                parallax.style.backgroundPosition = `center ${scrolled * 0.5}px`;
+            });
+        });
+
+        // Инициализация шапки
+        function initHeader() {
+            const header = document.getElementById('header');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileLinks = document.querySelectorAll('.mobile-nav a');
+            
+            // Изменение шапки при скролле
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Мобильное меню
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileNav.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closeMenuBtn.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Закрытие меню при клике на ссылку
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            });
+        }
+
+        // Инициализация категорий
+        function initCategories() {
+            const categoriesNav = document.getElementById('categoriesNav');
+            const categories = Object.keys(servicesData.services);
+            
+            // Добавляем кнопку "Все услуги"
+            const allBtn = document.createElement('button');
+            allBtn.className = 'category-btn active';
+            allBtn.innerHTML = '<i class="fas fa-list"></i> Все услуги';
+            allBtn.addEventListener('click', () => showAllServices());
+            categoriesNav.appendChild(allBtn);
+            
+            // Добавляем кнопки для каждой категории
+            categories.forEach(category => {
+                const btn = document.createElement('button');
+                btn.className = 'category-btn';
+                btn.innerHTML = `<i class="${categoryIcons[category] || 'fas fa-wrench'}"></i> ${category}`;
+                btn.addEventListener('click', () => filterByCategory(category));
+                categoriesNav.appendChild(btn);
+            });
+        }
+
+        // Инициализация услуг
+        function initServices() {
+            showAllServices();
+        }
+
+        // Показать все услуги
+        function showAllServices() {
+            const servicesGrid = document.getElementById('servicesGrid');
+            servicesGrid.innerHTML = '';
+            
+            // Собираем все услуги из всех категорий
+            let allServices = [];
+            Object.entries(servicesData.services).forEach(([category, services]) => {
+                services.forEach(service => {
+                    allServices.push({ ...service, category });
+                });
+            });
+            
+            // Сортируем по цене
+            allServices.sort((a, b) => a.price_number - b.price_number);
+            
+            // Отображаем все услуги
+            allServices.forEach(service => {
+                servicesGrid.appendChild(createServiceCard(service));
+            });
+            
+            // Активируем кнопку "Все услуги"
+            updateActiveCategoryButton('Все услуги');
+            
+            // Плавное появление
+            setTimeout(() => servicesGrid.classList.add('active'), 50);
+        }
+
+        // Фильтрация по категории
+        function filterByCategory(category) {
+            const servicesGrid = document.getElementById('servicesGrid');
+            servicesGrid.classList.remove('active');
+            
+            setTimeout(() => {
+                servicesGrid.innerHTML = '';
+                
+                servicesData.services[category].forEach(service => {
+                    servicesGrid.appendChild(createServiceCard({ ...service, category }));
+                });
+                
+                // Активируем кнопку выбранной категории
+                updateActiveCategoryButton(category);
+                
+                // Плавное появление
+                setTimeout(() => servicesGrid.classList.add('active'), 50);
+            }, 300);
+        }
+
+        // Создание карточки услуги
+        function createServiceCard(service) {
+            const card = document.createElement('div');
+            card.className = 'service-card';
+            card.dataset.serviceId = `${service.category}-${service.name}`.replace(/\s+/g, '-');
+            
+            // Проверяем, добавлена ли уже эта услуга в корзину
+            const isInCart = isServiceInCart(service);
+            
+            card.innerHTML = `
+                <div class="service-category">${service.category}</div>
+                <div class="service-header">
+                    <h3 class="service-name">${service.name}</h3>
+                    <div class="service-price">${service.price_string}</div>
+                </div>
+                <p class="service-description">
+                    Профессиональное выполнение работы специалистами с многолетним опытом.
+                    Используем только оригинальные запчасти и материалы.
+                </p>
+                <div class="service-action">
+                    <button class="add-to-cart-btn ${isInCart ? 'added' : ''}" 
+                            data-service='${JSON.stringify(service).replace(/'/g, "&apos;")}'>
+                        <i class="fas ${isInCart ? 'fa-check' : 'fa-cart-plus'}"></i>
+                        ${isInCart ? 'Добавлено' : 'Добавить к заказу'}
+                    </button>
+                </div>
+            `;
+            
+            // Добавляем обработчик клика на кнопку
+            const addBtn = card.querySelector('.add-to-cart-btn');
+            addBtn.addEventListener('click', () => toggleServiceInCart(service, card));
+            
+            return card;
+        }
+
+        // Корзина (локальное хранилище)
+        let cart = JSON.parse(localStorage.getItem('autouhod_cart')) || [];
+
+        // Добавить/удалить услугу из корзины
+        function toggleServiceInCart(service, card) {
+            const serviceId = `${service.category}-${service.name}`;
+            const index = cart.findIndex(item => item.id === serviceId);
+            
+            if (index === -1) {
+                // Добавляем услугу
+                cart.push({
+                    id: serviceId,
+                    name: service.name,
+                    category: service.category,
+                    price: service.price_string,
+                    price_number: service.price_number
+                });
+                showNotification('Услуга добавлена к заказу', 'success');
+                
+                // Обновляем кнопку
+                const btn = card.querySelector('.add-to-cart-btn');
+                btn.classList.add('added');
+                btn.innerHTML = '<i class="fas fa-check"></i> Добавлено';
+            } else {
+                // Удаляем услугу
+                cart.splice(index, 1);
+                showNotification('Услуга удалена из заказа', 'error');
+                
+                // Обновляем кнопку
+                const btn = card.querySelector('.add-to-cart-btn');
+                btn.classList.remove('added');
+                btn.innerHTML = '<i class="fas fa-cart-plus"></i> Добавить к заказу';
+            }
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('autouhod_cart', JSON.stringify(cart));
+            
+            // Обновляем отображение корзины
+            updateCartDisplay();
+        }
+
+        // Проверить, есть ли услуга в корзине
+        function isServiceInCart(service) {
+            const serviceId = `${service.category}-${service.name}`;
+            return cart.some(item => item.id === serviceId);
+        }
+
+        // Очистить корзину
+        function clearCart() {
+            if (cart.length === 0) {
+                showNotification('Корзина уже пуста', 'error');
+                return;
+            }
+            
+            if (confirm('Вы уверены, что хотите очистить весь заказ?')) {
+                cart = [];
+                localStorage.setItem('autouhod_cart', JSON.stringify(cart));
+                
+                // Обновляем все кнопки "Добавить к заказу"
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.classList.remove('added');
+                    btn.innerHTML = '<i class="fas fa-cart-plus"></i> Добавить к заказу';
+                });
+                
+                updateCartDisplay();
+                showNotification('Корзина очищена', 'success');
+            }
+        }
+
+        // Оформить заказ
+        function placeOrder() {
+            if (cart.length === 0) {
+                showNotification('Добавьте хотя бы одну услугу к заказу', 'error');
+                return;
+            }
+            
+            // Собираем информацию о заказе
+            let orderDetails = '=== ЗАКАЗ УСЛУГ АВТОУХОД ===\n\n';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                orderDetails += `${index + 1}. ${item.name}\n`;
+                orderDetails += `   Категория: ${item.category}\n`;
+                orderDetails += `   Стоимость: ${item.price}\n\n`;
+                total += item.price_number;
+            });
+            
+            orderDetails += '=======================\n';
+            orderDetails += `ОБЩАЯ СТОИМОСТЬ: ${formatPrice(total)} ₽\n\n`;
+            orderDetails += 'Спасибо за заказ!\n';
+            orderDetails += 'Наш менеджер свяжется с вами в течение 30 минут для уточнения деталей.\n';
+            orderDetails += 'Телефон для связи: +7 (495) 123-45-67';
+            
+            // Показываем информацию о заказе
+            alert(orderDetails);
+            
+            // Очищаем корзину после заказа
+            cart = [];
+            localStorage.setItem('autouhod_cart', JSON.stringify(cart));
+            
+            // Обновляем все кнопки
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.classList.remove('added');
+                btn.innerHTML = '<i class="fas fa-cart-plus"></i> Добавить к заказу';
+            });
+            
+            updateCartDisplay();
+            showNotification('Заказ успешно оформлен! Мы скоро с вами свяжемся.', 'success');
+        }
+
+        // Обновить отображение корзины
+        function updateCartDisplay() {
+            const selectedServices = document.getElementById('selectedServices');
+            const selectedCount = document.getElementById('selectedCount');
+            const totalAmount = document.getElementById('totalAmount');
+            
+            // Обновляем счетчик
+            selectedCount.textContent = cart.length;
+            
+            // Обновляем общую сумму
+            const total = cart.reduce((sum, item) => sum + item.price_number, 0);
+            totalAmount.textContent = `${formatPrice(total)} ₽`;
+            
+            // Обновляем список услуг
+            if (cart.length === 0) {
+                selectedServices.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Вы еще не выбрали ни одной услуги</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Нажмите кнопку "Добавить к заказу" в карточке услуги</p>
+                    </div>
+                `;
+            } else {
+                let html = '';
+                cart.forEach(item => {
+                    html += `
+                        <div class="selected-item">
+                            <div class="item-info">
+                                <div class="item-name">${item.name}</div>
+                                <div class="item-category">${item.category}</div>
+                            </div>
+                            <div class="item-price">${item.price}</div>
+                            <button class="remove-item" data-service-id="${item.id}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                selectedServices.innerHTML = html;
+                
+                // Добавляем обработчики для кнопок удаления
+                selectedServices.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const serviceId = this.dataset.serviceId;
+                        removeFromCart(serviceId);
+                    });
+                });
+            }
+        }
+
+        // Удалить услугу из корзины по ID
+        function removeFromCart(serviceId) {
+            const index = cart.findIndex(item => item.id === serviceId);
+            if (index !== -1) {
+                cart.splice(index, 1);
+                localStorage.setItem('autouhod_cart', JSON.stringify(cart));
+                
+                // Обновляем кнопку в карточке
+                const card = document.querySelector(`[data-service-id="${serviceId}"]`);
+                if (card) {
+                    const btn = card.querySelector('.add-to-cart-btn');
+                    btn.classList.remove('added');
+                    btn.innerHTML = '<i class="fas fa-cart-plus"></i> Добавить к заказу';
+                }
+                
+                updateCartDisplay();
+                showNotification('Услуга удалена из заказа', 'error');
+            }
+        }
+
+        // Обновить активную кнопку категории
+        function updateActiveCategoryButton(activeCategory) {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                // Сравниваем текст кнопки (без иконки)
+                const btnText = btn.textContent.trim();
+                if (btnText === activeCategory || 
+                    (activeCategory === 'Все услуги' && btnText.includes('Все услуги'))) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Форматирование цены (разделители тысяч)
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+
+        // Показать уведомление
+        function showNotification(message, type = 'info') {
+            const notificationsContainer = document.getElementById('notificationsContainer');
+            
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <div>${message}</div>
+            `;
+            
+            notificationsContainer.appendChild(notification);
+            
+            // Показываем уведомление
+            setTimeout(() => notification.classList.add('show'), 10);
+            
+            // Убираем уведомление через 4 секунды
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
