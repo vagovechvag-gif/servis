@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Заказ еды - VK Mini App</title>
+    
+    <!-- Подключаем стили VKUI -->
+    <link rel="stylesheet" href="https://unpkg.com/@vkontakte/vkui/dist/vkui.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Geneva, "Noto Sans Armenian", "Noto Sans Bengali", "Noto Sans Cherokee", "Noto Sans Devanagari", "Noto Sans Ethiopic", "Noto Sans Georgian", "Noto Sans Hebrew", "Noto Sans Kannada", "Noto Sans Khmer", "Noto Sans Lao", "Noto Sans Osmanya", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Thai", sans-serif;
+            background-color: var(--vkui--color_background);
+            color: var(--vkui--color_text_primary);
+            min-height: 100vh;
+        }
+        
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--vkui--color_background);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--vkui--color_separator_primary);
+        }
+        
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 16px 12px;
+            color: var(--vkui--color_text_primary);
+        }
+        
+        .product-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--vkui--color_separator_primary);
+            background: var(--vkui--color_content_tint_background);
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .product-price {
+            font-size: 14px;
+            color: var(--vkui--color_text_secondary);
+        }
+        
+        .cart-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--vkui--color_accent_blue);
+            color: white;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        .cart-page {
+            padding: 16px;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--vkui--color_separator_primary);
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .cart-item-price {
+            font-size: 14px;
+            color: var(--vkui--color_text_secondary);
+        }
+        
+        .cart-total {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--vkui--color_content_tint_background);
+            border-radius: 12px;
+        }
+        
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .cart-total-row:last-child {
+            margin-bottom: 0;
+            font-weight: 600;
+            font-size: 18px;
+            padding-top: 8px;
+            border-top: 1px solid var(--vkui--color_separator_primary);
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--vkui--color_text_secondary);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .back-button {
+            margin-bottom: 16px;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 16px;
+            color: var(--vkui--color_text_secondary);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Подключаем React и ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Подключаем VKUI -->
+    <script src="https://unpkg.com/@vkontakte/vkui/dist/vkui.js"></script>
+    
+    <!-- Подключаем VK Bridge -->
+    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+
+    <script>
+        const { useState, useEffect } = React;
+        const { 
+            Button, 
+            Input, 
+            Panel, 
+            PanelHeader, 
+            View, 
+            Alert,
+            Header,
+            Group,
+            List,
+            Cell,
+            Footer,
+            SplitLayout,
+            SplitCol,
+            Root,
+            ScreenSpinner
+        } = VKUI;
+
+        // Данные товаров
+        const PRODUCTS = [
+            {
+                category: "ШАУРМА",
+                items: [
+                    { id: 1, name: "Классическая курица", price: 230 },
+                    { id: 2, name: "Классическая свинина", price: 240 },
+                    { id: 3, name: "Классическая говядина", price: 270 },
+                    { id: 4, name: "Сельская курица", price: 270 },
+                    { id: 5, name: "Сельская свинина", price: 280 },
+                    { id: 6, name: "Сельская говядина", price: 320 },
+                    { id: 7, name: "Вегетарианская", price: 120 }
+                ]
+            },
+            {
+                category: "БУРГЕРЫ",
+                items: [
+                    { id: 8, name: "Бургер с креветками", price: 430 }
+                ]
+            },
+            {
+                category: "ШАШЛЫК",
+                items: [
+                    { id: 9, name: "Шашлык курица", price: 130, unit: "100г" }
+                ]
+            }
+        ];
+
+        // Главный компонент приложения
+        function App() {
+            const [activePanel, setActivePanel] = useState('menu');
+            const [cart, setCart] = useState([]);
+            const [alert, setAlert] = useState(null);
+            const [formData, setFormData] = useState({ name: '', phone: '' });
+            const [isVKBridgeAvailable, setIsVKBridgeAvailable] = useState(false);
+
+            // Инициализация VK Bridge
+            useEffect(() => {
+                vkBridge.subscribe('VKWebAppInitDone', () => {
+                    setIsVKBridgeAvailable(true);
+                });
+                vkBridge.send('VKWebAppInit');
+            }, []);
+
+            // Добавление товара в корзину
+            const addToCart = (product) => {
+                setCart(prevCart => {
+                    const existingItem = prevCart.find(item => item.id === product.id);
+                    if (existingItem) {
+                        return prevCart.map(item => 
+                            item.id === product.id 
+                                ? { ...item, quantity: item.quantity + 1 }
+                                : item
+                        );
+                    } else {
+                        return [...prevCart, { ...product, quantity: 1 }];
+                    }
+                });
+                
+                // Показываем уведомление
+                setAlert({
+                    title: 'Товар добавлен',
+                    message: `${product.name} добавлен в корзину`,
+                    action: () => setAlert(null)
+                });
+            };
+
+            // Удаление товара из корзины
+            const removeFromCart = (productId) => {
+                setCart(prevCart => prevCart.filter(item => item.id !== productId));
+            };
+
+            // Изменение количества
+            const updateQuantity = (productId, delta) => {
+                setCart(prevCart => {
+                    return prevCart.map(item => {
+                        if (item.id === productId) {
+                            const newQuantity = item.quantity + delta;
+                            return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
+                        }
+                        return item;
+                    }).filter(item => item.quantity > 0);
+                });
+            };
+
+            // Подсчет итоговой суммы
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            // Отправка заказа
+            const submitOrder = () => {
+                if (!formData.name.trim()) {
+                    setAlert({
+                        title: 'Ошибка',
+                        message: 'Введите имя',
+                        action: () => setAlert(null)
+                    });
+                    return;
+                }
+
+                if (!formData.phone.trim()) {
+                    setAlert({
+                        title: 'Ошибка',
+                        message: 'Введите телефон',
+                        action: () => setAlert(null)
+                    });
+                    return;
+                }
+
+                if (cart.length === 0) {
+                    setAlert({
+                        title: 'Ошибка',
+                        message: 'Корзина пуста',
+                        action: () => setAlert(null)
+                    });
+                    return;
+                }
+
+                // Формируем данные заказа
+                const orderData = {
+                    name: formData.name,
+                    phone: formData.phone,
+                    items: cart.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                        unit: item.unit || 'шт'
+                    })),
+                    totalAmount: totalAmount,
+                    totalItems: totalItems,
+                    timestamp: new Date().toISOString()
+                };
+
+                console.log('Данные заказа:', JSON.stringify(orderData, null, 2));
+
+                // Попытка отправить через VK API или показываем alert
+                if (isVKBridgeAvailable && window.VKWebAppCallAPIMethod) {
+                    // Здесь можно реализовать отправку через VK API
+                    // Для примера просто показываем alert
+                    showSuccessAlert(orderData);
+                } else {
+                    showSuccessAlert(orderData);
+                }
+            };
+
+            // Показ успешного сообщения
+            const showSuccessAlert = (orderData) => {
+                setAlert({
+                    title: 'Заказ оформлен!',
+                    message: `Спасибо, ${orderData.name}! Ваш заказ на сумму ${orderData.totalAmount}₽ принят.\n\nДанные заказа:\n${JSON.stringify(orderData, null, 2)}`,
+                    action: () => {
+                        setAlert(null);
+                        setCart([]);
+                        setFormData({ name: '', phone: '' });
+                        setActivePanel('menu');
+                    },
+                    confirmText: 'Отлично'
+                });
+            };
+
+            // Рендер меню
+            const renderMenu = () => (
+                <Panel id="menu">
+                    <PanelHeader>Меню</PanelHeader>
+                    <div className="app-container">
+                        {PRODUCTS.map((category, catIndex) => (
+                            <div key={catIndex}>
+                                <div className="category-title">{category.category}</div>
+                                {category.items.map((product) => (
+                                    <div key={product.id} className="product-card">
+                                        <div className="product-info">
+                                            <div className="product-name">
+                                                {product.name}
+                                                {product.unit && <span style={{fontSize: '12px', color: 'var(--vkui--color_text_secondary)'}}> ({product.unit})</span>}
+                                            </div>
+                                            <div className="product-price">{product.price} ₽</div>
+                                        </div>
+                                        <Button 
+                                            size="m" 
+                                            mode="primary"
+                                            onClick={() => addToCart(product)}
+                                        >
+                                            Добавить
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                    
+                    {totalItems > 0 && (
+                        <div 
+                            className="cart-badge"
+                            onClick={() => setActivePanel('cart')}
+                        >
+                            {totalItems}
+                        </div>
+                    )}
+                </Panel>
+            );
+
+            // Рендер корзины
+            const renderCart = () => (
+                <Panel id="cart">
+                    <PanelHeader 
+                        left={
+                            <Button 
+                                size="m" 
+                                mode="tertiary"
+                                onClick={() => setActivePanel('menu')}
+                                style={{padding: '0 8px'}}
+                            >
+                                ← Назад
+                            </Button>
+                        }
+                    >
+                        Корзина
+                    </PanelHeader>
+                    <div className="cart-page">
+                        {cart.length === 0 ? (
+                            <div className="empty-cart">
+                                <div style={{fontSize: '48px', marginBottom: '16px'}}>🛒</div>
+                                <div>Ваша корзина пуста</div>
+                                <Button 
+                                    size="m" 
+                                    mode="primary" 
+                                    style={{marginTop: '16px'}}
+                                    onClick={() => setActivePanel('menu')}
+                                >
+                                    Перейти в меню
+                                </Button>
+                            </div>
+                        ) : (
+                            <>
+                                {cart.map((item) => (
+                                    <div key={item.id} className="cart-item">
+                                        <div className="cart-item-info">
+                                            <div className="cart-item-name">{item.name}</div>
+                                            <div className="cart-item-price">
+                                                {item.price} ₽ × {item.quantity} {item.unit || 'шт'} = {item.price * item.quantity} ₽
+                                            </div>
+                                        </div>
+                                        <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                                            <Button 
+                                                size="s" 
+                                                mode="secondary"
+                                                onClick={() => updateQuantity(item.id, -1)}
+                                            >
+                                                −
+                                            </Button>
+                                            <span style={{minWidth: '24px', textAlign: 'center'}}>{item.quantity}</span>
+                                            <Button 
+                                                size="s" 
+                                                mode="secondary"
+                                                onClick={() => updateQuantity(item.id, 1)}
+                                            >
+                                                +
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                                
+                                <div className="cart-total">
+                                    <div className="cart-total-row">
+                                        <span>Товаров:</span>
+                                        <span>{totalItems} {totalItems === 1 ? 'шт' : 'шт'}</span>
+                                    </div>
+                                    <div className="cart-total-row">
+                                        <span>Итого:</span>
+                                        <span>{totalAmount} ₽</span>
+                                    </div>
+                                </div>
+
+                                <div style={{marginTop: '24px'}}>
+                                    <Header mode="secondary">Оформление заказа</Header>
+                                    <Group>
+                                        <div className="form-group" style={{marginTop: '12px'}}>
+                                            <label className="form-label">Имя</label>
+                                            <Input 
+                                                type="text"
+                                                placeholder="Введите ваше имя"
+                                                value={formData.name}
+                                                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label">Телефон</label>
+                                            <Input 
+                                                type="tel"
+                                                placeholder="+7 (___) ___-__-__"
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                                            />
+                                        </div>
+                                        <Button 
+                                            size="l" 
+                                            mode="primary"
+                                            stretched
+                                            onClick={submitOrder}
+                                            style={{marginTop: '8px'}}
+                                        >
+                                            Отправить заказ
+                                        </Button>
+                                    </Group>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </Panel>
+            );
+
+            return (
+                <SplitLayout 
+                    header={<div style={{height: '0'}} />}
+                    style={{ justifyContent: 'center' }}
+                >
+                    <SplitCol autoSpaced>
+                        <Root activeView="main">
+                            <View 
+                                activePanel={activePanel}
+                                id="main"
+                            >
+                                {renderMenu()}
+                                {renderCart()}
+                            </View>
+                        </Root>
+                    </SplitCol>
+                    
+                    {alert && (
+                        <Alert
+                            actions={[
+                                {
+                                    title: alert.confirmText || 'OK',
+                                    action: alert.action,
+                                    mode: 'default'
+                                }
+                            ]}
+                            onClose={alert.action}
+                            header={alert.title}
+                            text={alert.message}
+                        />
+                    )}
+                </SplitLayout>
+            );
+        }
+
+        // Рендеринг приложения
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
