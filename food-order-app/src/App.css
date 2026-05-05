@@ -1,0 +1,51 @@
+/* Стили для приложения заказа еды */
+
+/* Базовые стили для всего приложения */
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Адаптация под мобильные устройства */
+@media (max-width: 768px) {
+  .vkuiSplitCol {
+    width: 100%;
+  }
+}
+
+/* Стили для карточек товаров */
+.vkuiCard--outline {
+  background-color: transparent;
+}
+
+/* Улучшение читаемости текста */
+.vkuiTitle--level-3 {
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+/* Отступы для элементов формы */
+.vkuiFormItem {
+  margin-bottom: 16px;
+}
+
+/* Стили для кнопки корзины */
+.vkuiButton--mode-primary {
+  font-weight: 600;
+}
+
+/* Анимация при добавлении товара */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vkuiCard {
+  animation: fadeIn 0.3s ease-out;
+}
